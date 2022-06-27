@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
-    [SerializeField] private GameObject _enemy;
+    [SerializeField] private Enemy _enemy;
     [SerializeField] private Transform _point;
     [SerializeField] private int _countObject;
     [SerializeField] private float _delay;
