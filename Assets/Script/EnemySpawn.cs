@@ -1,18 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnObject : MonoBehaviour
+public class EnemySpawn : MonoBehaviour
 {
-    [SerializeField] private GameObject _gameObject;
+    [SerializeField] private GameObject _enemy;
     [SerializeField] private Transform _point;
     [SerializeField] private int _countObject;
-    [SerializeField] private float _time;
+    [SerializeField] private float _delay;
 
     private Transform[] _points;
     private int _currrentPoint;
     private int _currentCountObject;
-    private float _runningTime;
 
     private void Start()
     {
@@ -22,26 +20,24 @@ public class SpawnObject : MonoBehaviour
         {
             _points[i] = _point.GetChild(i);
         }
+
+        StartCoroutine(Spawn());
     }
 
-    private void Update()
+    private IEnumerator Spawn()
     {
-        if (_countObject > _currentCountObject)
+        while (_countObject > _currentCountObject)
         {
-            _runningTime += Time.deltaTime;
-
-            if (_time <= _runningTime)
-            {
-                Instantiate(_gameObject, _points[_currrentPoint].position, Quaternion.identity);
-                _currentCountObject++;
-                _currrentPoint++;
-                _runningTime = 0;
-            }
+            Instantiate(_enemy, _points[_currrentPoint].position, Quaternion.identity);
+            _currentCountObject++;
+            _currrentPoint++;
 
             if (_currrentPoint >= _points.Length)
             {
                 _currrentPoint = 0;
             }
+
+            yield return new WaitForSeconds(_delay);
         }
     }
 }
